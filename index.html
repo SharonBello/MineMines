@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Naval Warfare - MineMines </title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body onload="init()">
+
+    <div class="header">MineMines</div>
+
+    <div class="levels">
+        <li>
+            <ul class="ensign"><button data-i="" data-j="" onclick="levels(this)">Ensign</button></ul>
+            <ul class="lieutenant"><button data-i="" data-j="" onclick="levels(this)">Lieutenant</button></ul>
+            <ul class="commander"><button data-i="" data-j="" onclick="levels(this)">Commander</button></ul>
+            <ul class="captain"><button data-i="" data-j="" onclick="levels(this)">Captain</button></ul>
+            <ul class="admiral"><button data-i="" data-j="" onclick="levels(this)">Admiral</button></ul>
+        </li>
+    </div>
+
+    <div class="game-stats">
+        <li>
+            <ul class="lives">LIVES:<span style="color:rgb(255, 0, 0); margin-left: 15px">&#10084;</span></ul>
+            <ul class="score"><span style="margin-left: 15px">00&#128176;</span></ul>
+            <ul class="timer"><span style="margin-left: 15px">00:00</span></ul>
+            <ul class="restart"><button><span style="width:16px">&#128515</span></button></ul>
+        </li>
+    </div>
+
+    <div class="board-container">
+        <table class="board">
+            <tbody class="cell"></tbody>
+        </table>
+    </div>
+
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
