@@ -39,19 +39,24 @@ function init() {
         mines: Math.floor(getRandomIntInclusive(2, N / 2)),
         lives: 3
     }
-    gBoard = buildBoard();
-    printMat(gBoard, '.board');
-    getMinesRandPos(gBoard, gDiffLevel.mines);
-    addMines(gBoard);
-    addNeighborsCount(gBoard);
-    renderBoard(gBoard);
+    gBoard = buildBoard()
+    printMat(gBoard, '.board')
+    var mines = getMinesRandPos(gBoard, gDiffLevel.mines)
+    if (mines.length < gDiffLevel.lives) {
+        gDiffLevel.lives = mines.length 
+    }
+    addMines(gBoard)
+    addNeighborsCount(gBoard)
+    renderBoard(gBoard)
     gGame.isOn = true;
 }
 
 function addNeighborsCount(gBoard) {
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
-            gBoard[i][j].minesAroundCount = findNeighborsCount(gBoard, i, j);
+            const adjacentTiles = nearbyTiles(gBoard, {i, j})
+            const mines = adjacentTiles.filter(t => t.isMine)
+            gBoard[i][j].minesAroundCount = mines.length
         }
     }
 }
@@ -68,9 +73,9 @@ function buildBoard() {
                 isMine: false,
                 isMarked: false,
             }
-            board[i].push(tile);
+            board[i].push(tile)
         }
-        board.push(board[i]);
+        board.push(board[i])
     }
     return board;
 }
@@ -91,82 +96,79 @@ function renderBoard(gBoard) {
         }
         strHTML += `</tr>\n`
     }
-    var elBoard = document.querySelector('.board');
+    var elBoard = document.querySelector('.board')
     elBoard.innerHTML = strHTML;
 }
 
 
 function tileClicked(elTile, i, j) {
-    var tile = gBoard[i][j]
     gBoard[i][j].isShown = true;
-    gBoard[i][j].minesAroundCount = findNeighborsCount(gBoard[i][j]);
 
     if (gBoard[i][j].isMine) {
         elTile.classList.add('mine')
-        appendElementImg(elTile, MINE_IMG);
+        appendElementImg(elTile, MINE_IMG)
         gDiffLevel.lives--;
-        gameOver()
+        isGameOver()
+        return
     }
 
-    if (!gBoard[i][j].isMarked) elTile.classList.add('marked');
+    if (!gBoard[i][j].isMarked) {
+        if (gBoard[i][j].minesAroundCount !== 0) {
+            var el = document.createElement('span')
+            el.innerText = gBoard[i][j].minesAroundCount
+            elTile.appendChild(el)
+        } else {
+            elTile.classList.add('marked')
+        }
+    }
 }
 
 function getMinesRandPos(board, minesCount) {
     var randPos;
     for (var i = 0; i < minesCount; i++) {
         for (var j = 0; j < minesCount; j++) {
-            var randomI = getRandomInt(0, board[0].length);
-            var randomJ = getRandomInt(0, board[0].length);
+            var randomI = getRandomInt(0, board[0].length)
+            var randomJ = getRandomInt(0, board[0].length)
             randPos = ({
                 i: randomI,
                 j: randomJ
-            });
+            })
         }
-        gMines.push(randPos);
+        gMines.push(randPos)
     }
     return gMines;
 }
 
 function addMines() {
-    var tiles = getMinesRandPos();
+    var tiles = getMinesRandPos()
     for (var i = 0; i < tiles.length; i++) {
         var tile = tiles[i];
         gBoard[tile.i][tile.j].isMine = true;
     }
-    console.log('tiles', tiles);
+    console.log('tiles', tiles)
 }
 
-function findNeighborsCount(board, rowIdx, colIdx) {
-    var count = 0;
-    var mineTiles = getMinesRandPos();
-    // console.log('mineTile', mineTiles);
-    for (var i = 0; i < mineTiles.length; i++) {
-        var rowIdx = (mineTiles[i]);
-        // console.log('rowIdx', rowIdx);
-        var indexes = Object.entries(rowIdx);
-        // console.log('indexes', indexes);
-        rowIdx = indexes[0][1];
-        // console.log('rowIdx', rowIdx);
-        var colIdx = indexes[1][1];
-        // console.log('colIdx', colIdx);
-    }
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i > board.length - 1) continue;
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j > board.length - 1) continue;
-            if (i === rowIdx && j === colIdx) continue;
-            var currTile = gBoard[rowIdx][colIdx];
-            if (currTile.isMine) count++;
+function nearbyTiles(board, coords) {
+    var x = coords.i;
+    var y = coords.j;
+    const tiles = []
+
+    for (let xOffset = -1; xOffset <= 1; xOffset++) {
+        for (let yOffset = -1; yOffset <= 1; yOffset++) {
+        const tile = board[x + xOffset]?.[y + yOffset]
+        if (tile) tiles.push(tile)
         }
     }
-    // console.log('count', count);
-    return count;
+
+    return tiles
 }
 
-function gameOver() {
+function isGameOver() {
     if (gDiffLevel.lives === 0) {
-        alert('Game Over');
-        init()
+        alert('Game Over')
+        setTimeout(() => {
+            init()
+        }, 1000)
     }
 }
 
@@ -175,14 +177,14 @@ function livesStatus(num) {
         var currTile = gBoard[i];
         for (var j = 0; j < currTile.length; j++) {
             // currTile = gBoard[i][j];
-            currTile = tileClicked(gClickedTile, gBoard[i][j]);
+            currTile = tileClicked(gClickedTile, gBoard[i][j])
         }
     }
     if (currTile.isMine === true) {
-        var elLives = document.querySelector('.lives');
-        appendElementImg(elLives, LIFE_IMG);
+        var elLives = document.querySelector('.lives')
+        appendElementImg(elLives, LIFE_IMG)
         if (num !== 0) elLives.innerHTML = LIFE_IMG * num;
         else elLives.innerHTML = LOSE_IMG;
-        console.log('elLives', elLives);
+        console.log('elLives', elLives)
     }
 }
