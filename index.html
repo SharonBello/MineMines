@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Naval Warfare - MineMines </title>
     <link rel="stylesheet" href="css/styles.css">
+    <!-- <link rel="stylesheet" href="newstyles.css"> -->
 </head>
 
 <body onload="init()">
@@ -28,10 +29,10 @@
 
     <div class="game-stats">
         <li>
-            <ul class="lives">LIVES:<span style="color:rgb(255, 0, 0); margin-left: 15px">&#10084;</span></ul>
-            <ul class="score"><span style="margin-left: 15px">00&#128176;</span></ul>
-            <ul class="timer"><span style="margin-left: 15px">00:00</span></ul>
-            <ul class="restart"><button><span style="width:16px">&#128515</span></button></ul>
+            <ul class="lives">LIVES:<br><span style="color:rgb(255, 0, 0);">&#10084; &#10084; &#10084;</span></ul>
+            <ul class="restart"><button><span>&#128515</span></button></ul>
+            <ul class="score"><span>00&#128176;</span></ul>
+            <ul class="timer"><span>00:000</span></ul>
         </li>
     </div>
 
@@ -40,7 +41,12 @@
     </table>
     
     <script src="js/util.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/gameSet.js"></script>
+    <script src="js/gameEvents.js"></script>
+    <script src="js/gameStats.js"></script>
+    <script src="js/manageLeveles.js"></script>
+
+
 </body>
 
 </html>
