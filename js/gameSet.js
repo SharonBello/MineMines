@@ -1,42 +1,37 @@
 'use strict'
 
-const N = 4;
-const MINE_IMG = '&#128163';
-const MARKED = 'marked';
-const NUMBER = 'number';
+const N = 2
+const MINE_IMG = '&#128163'
 
-var gBoard;
-var gClickedTile;
+var gBoard
 var gFirstClick = 0
-var gMines = [];
-var gDiffLevel;
+var gMines = []
+var gDiffLevel
 
 var gGame = {
     isOn: false,
 }
 
-
 function buildBoard() {
-    var SIZE = N;
-    var board = [];
+    var SIZE = gDiffLevel.size
+    var board = []
     for (var i = 0; i < SIZE; i++) {
-        board[i] = [];
+        board[i] = []
         for (var j = 0; j < SIZE; j++) {
             var tile = {
                 minesAroundCount: 0,
-                isShown: false,
                 isMine: false,
-                isMarked: false,
+                isShown: false,
             }
             board[i].push(tile)
         }
         board.push(board[i])
     }
-    return board;
+    return board
 }
 
 function renderBoard(gBoard) {
-    var strHTML = '';
+    var strHTML = ''
     for (var i = 0; i < gBoard.length; i++) {
         strHTML += `<tr>\n`
         for (var j = 0; j < gBoard[0].length; j++) {
@@ -44,28 +39,59 @@ function renderBoard(gBoard) {
                 i: i,
                 j: j
             })
-
             strHTML += `\t<td class="tile ${tileClass}" 
             onclick="tileClicked(this, ${i}, ${j})">
             </td>\n`
         }
         strHTML += `</tr>\n`
     }
+
     var elBoard = document.querySelector('.board')
-    elBoard.innerHTML = strHTML;
+    elBoard.innerHTML = strHTML
+}
+
+function renderLives() {
+    var elLives = document.querySelector('.num-lives')
+    var strLives = ''
+    for (var i = 0; i < gDiffLevel.lives; i++) {
+        strLives += '&#10084'
+    }
+    elLives.innerHTML = strLives
+}
+
+function renderScore(score) {
+    var elScore = document.querySelector('span.score')
+    const prevScore = parseInt(elScore.innerHTML)
+    elScore.innerHTML = prevScore + parseInt(score)
+}
+
+function resetScore() {
+    var elScore = document.querySelector('span.score')
+    elScore.innerHTML = 0
+}
+
+function renderStart(isMine) {
+    var elStart = document.querySelector('.face')
+    if (isMine) {
+        elStart.innerHTML = '😥'
+    } else {
+        elStart.innerHTML = '&#128515'
+
+    }
 }
 
 function addMines() {
     var tiles = getMinesRandPos()
+    console.log('tiles', tiles)
     for (var i = 0; i < tiles.length; i++) {
-        var tile = tiles[i];
+        console.log('tiles', tiles.length)
+        var tile = tiles[i]
         gBoard[tile.i][tile.j].isMine = true;
     }
-    console.log('tiles', tiles)
 }
 
 function getMinesRandPos(board, minesCount) {
-    var randPos;
+    var randPos
     for (var i = 0; i < minesCount; i++) {
         for (var j = 0; j < minesCount; j++) {
             var randomI = getRandomInt(0, board[0].length)
@@ -77,7 +103,7 @@ function getMinesRandPos(board, minesCount) {
         }
         gMines.push(randPos)
     }
-    return gMines;
+    return gMines
 }
 
 function addNeighborsCount(gBoard) {
@@ -89,13 +115,14 @@ function addNeighborsCount(gBoard) {
             })
             var mines = neighborTiles.filter(tile => tile.isMine)
             gBoard[i][j].minesAroundCount = mines.length
+            var elScore = document.querySelector('span.score')
         }
-    }
+    } 
 }
 
 function getNeighborTiles(board, pos) {
-    var x = pos.i;
-    var y = pos.j;
+    var x = pos.i
+    var y = pos.j
     var tiles = []
 
     for (var xOffset = -1; xOffset <= 1; xOffset++) {
@@ -107,3 +134,4 @@ function getNeighborTiles(board, pos) {
 
     return tiles
 }
+
