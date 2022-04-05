@@ -1,0 +1,44 @@
+.game-stats{
+    float:top;
+    margin-top: 1.5em;
+}
+
+
+.game-stats li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    padding: 0;
+    border: none;
+    outline: none;
+    
+}
+
+.game-stats ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: center;
+    width: 6em;
+    height: 2em;
+    font-family: 'Fredoka One', cursive;
+    font-size: 2em;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.game-stats ul span {
+    text-align: center;
+}
+
+.restart button {
+    font-size: 1.5em;
+    background: none;
+    padding: 0;
+    border: none;
+    outline: none;
+}

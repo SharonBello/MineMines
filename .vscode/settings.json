@@ -1,6 +1,14 @@
 {
     "cSpell.words": [
+        "ELTILE",
         "Gaffuk",
+        "gameboard",
         "setMinesNegsCount"
-    ]
+    ],
+    "liveServer.settings.port": 5501,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2F2F10",
+        "titleBar.activeBackground": "#414217",
+        "titleBar.activeForeground": "#FBFBF3"
+    }
 }
